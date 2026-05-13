@@ -7,7 +7,6 @@ use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -90,6 +89,54 @@ trait APIResponseTrait
             'throw_exception' => $throw_exception,
             'message' => $message,
             'data' => null,
+            'errors' => $errorsCollection->toArray(),
+            'errorCode' => $errorCode,
+            'response_headers' => $headers,
+        ]);
+    }
+
+    /**
+     * The bad request response
+     * @param array|string $errors
+     * @param string|null $message
+     * @param array $data
+     * @param bool $throw_exception
+     * @param string|int|null|UnitEnum $errorCode
+     * @param array $headers
+     * @return JsonResponse
+     */
+    public function apiConflict(
+        array|string             $errors = [],
+        ?string                  $message = null,
+        array                    $data = [],
+        bool                     $throw_exception = true,
+        string|int|null|UnitEnum $errorCode = null,
+        array                    $headers = []
+    ): JsonResponse
+    {
+        // Set errors
+        $errorsCollection = collect($errors)
+            ->filter(function ($value, $key) {
+                return !empty($value);
+            });
+
+        // Set errors collection
+        if ($errorsCollection->isNotEmpty()) {
+            $errorsCollection = collect([
+                'errors' => $errorsCollection->toArray(),
+            ]);
+        }
+
+        // Set a default value if error code not sent
+        if (!$errorCode && (bool)config('response.returnDefaultErrorCodes', true)) {
+            $errorCode = $this->getErrorCode(config('response.errorCodesDefaults.apiConflict', 'CONFLICT_ERROR'));
+        }
+
+        return $this->apiResponse([
+            'type' => 'conflict',
+            'throw_exception' => $throw_exception,
+            'message' => $message,
+            'data' => $data,
             'errors' => $errorsCollection->toArray(),
             'errorCode' => $errorCode,
             'response_headers' => $headers,
@@ -286,9 +333,9 @@ trait APIResponseTrait
      */
     public function apiPaginate(
         LengthAwarePaginator|ResourceCollection $pagination,
-        array                                            $appends = [],
-        bool                                             $reverse_data = false,
-        array                                            $headers = []
+        array                                   $appends = [],
+        bool                                    $reverse_data = false,
+        array                                   $headers = []
     ): JsonResponse
     {
         // Set pagination data

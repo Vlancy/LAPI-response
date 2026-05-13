@@ -250,6 +250,31 @@ if (!function_exists('apiException')) {
     }
 }
 
+if (!function_exists('apiConflict')) {
+    /**
+     * Handle and generate an API exception response.
+     *
+     * @param array|string $errors List of errors or error message.
+     * @param string|null $message An optional custom error message.
+     * @param array $data
+     * @param bool $throw_exception Indicates whether to throw the exception.
+     * @param string|int|UnitEnum|null $errorCode Specific error code for the exception.
+     * @param array $headers optional headers to be implemented in response.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function apiConflict(
+        array|string             $errors = [],
+        ?string                  $message = null,
+        array                    $data = [],
+        bool                     $throw_exception = true,
+        string|int|UnitEnum|null $errorCode = null,
+        array                    $headers = []
+    )
+    {
+        return ApiResponse::apiConflict($errors, $message, $data, $throw_exception, $errorCode, $headers);
+    }
+}
+
 if (!function_exists('apiUnauthenticated')) {
     /**
      * Create an unauthenticated API response.

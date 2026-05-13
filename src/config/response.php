@@ -132,6 +132,7 @@ return [
         'apiUnauthenticated' => 'UNAUTHORIZED_ACCESS',
         'apiForbidden' => 'FORBIDDEN',
         'apiValidate' => 'VALIDATION_FAILED',
+        'apiConflict' => 'CONFLICT_ERROR',
     ],
 
     /*

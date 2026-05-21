@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
@@ -250,6 +251,31 @@ if (!function_exists('apiException')) {
     }
 }
 
+if (!function_exists('apiConflict')) {
+    /**
+     * Handle and generate an API exception response.
+     *
+     * @param array|string $errors List of errors or error message.
+     * @param string|null $message An optional custom error message.
+     * @param array $data
+     * @param bool $throw_exception Indicates whether to throw the exception.
+     * @param string|int|UnitEnum|null $errorCode Specific error code for the exception.
+     * @param array $headers optional headers to be implemented in response.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function apiConflict(
+        array|string             $errors = [],
+        ?string                  $message = null,
+        array                    $data = [],
+        bool                     $throw_exception = true,
+        string|int|UnitEnum|null $errorCode = null,
+        array                    $headers = []
+    )
+    {
+        return ApiResponse::apiConflict($errors, $message, $data, $throw_exception, $errorCode, $headers);
+    }
+}
+
 if (!function_exists('apiUnauthenticated')) {
     /**
      * Create an unauthenticated API response.
@@ -296,13 +322,13 @@ if (!function_exists('apiPaginate')) {
     /**
      * Paginate data for API responses.
      *
-     * @param LengthAwarePaginator|ResourceCollection $pagination
+     * @param LengthAwarePaginator|ResourceCollection|CursorPaginator $pagination
      * @param array $appends
      * @param bool $reverse_data
      * @param array $headers optional headers to be implemented in response.
      * @return \Illuminate\Http\JsonResponse
      */
-    function apiPaginate(LengthAwarePaginator|ResourceCollection $pagination, array $appends = [], bool $reverse_data = false, array $headers = [])
+    function apiPaginate(LengthAwarePaginator|ResourceCollection|CursorPaginator $pagination, array $appends = [], bool $reverse_data = false, array $headers = [])
     {
         return ApiResponse::apiPaginate($pagination, $appends, $reverse_data, $headers);
     }

@@ -3,14 +3,15 @@
 namespace MA\LaravelApiResponse\Traits;
 
 use Generator;
+use Illuminate\Contracts\Pagination\CursorPaginator;
 use Illuminate\Contracts\Validation\Factory;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use MA\LaravelApiResponse\Enums\ErrorCodesEnum;
 use Symfony\Component\HttpFoundation\StreamedJsonResponse;
 use UnitEnum;
@@ -90,6 +91,54 @@ trait APIResponseTrait
             'throw_exception' => $throw_exception,
             'message' => $message,
             'data' => null,
+            'errors' => $errorsCollection->toArray(),
+            'errorCode' => $errorCode,
+            'response_headers' => $headers,
+        ]);
+    }
+
+    /**
+     * The bad request response
+     * @param array|string $errors
+     * @param string|null $message
+     * @param array $data
+     * @param bool $throw_exception
+     * @param string|int|null|UnitEnum $errorCode
+     * @param array $headers
+     * @return JsonResponse
+     */
+    public function apiConflict(
+        array|string             $errors = [],
+        ?string                  $message = null,
+        array                    $data = [],
+        bool                     $throw_exception = true,
+        string|int|null|UnitEnum $errorCode = null,
+        array                    $headers = []
+    ): JsonResponse
+    {
+        // Set errors
+        $errorsCollection = collect($errors)
+            ->filter(function ($value, $key) {
+                return !empty($value);
+            });
+
+        // Set errors collection
+        if ($errorsCollection->isNotEmpty()) {
+            $errorsCollection = collect([
+                'errors' => $errorsCollection->toArray(),
+            ]);
+        }
+
+        // Set a default value if error code not sent
+        if (!$errorCode && (bool)config('response.returnDefaultErrorCodes', true)) {
+            $errorCode = $this->getErrorCode(config('response.errorCodesDefaults.apiConflict', 'CONFLICT_ERROR'));
+        }
+
+        return $this->apiResponse([
+            'type' => 'conflict',
+            'throw_exception' => $throw_exception,
+            'message' => $message,
+            'data' => $data,
             'errors' => $errorsCollection->toArray(),
             'errorCode' => $errorCode,
             'response_headers' => $headers,
@@ -278,29 +327,58 @@ trait APIResponseTrait
 
     /**
      * Paginate data
-     * @param LengthAwarePaginator|ResourceCollection $pagination
+     * @param LengthAwarePaginator|ResourceCollection|CursorPaginator $pagination
      * @param array $appends Extra data to append to the response
      * @param bool $reverse_data Reverse data
      * @param array $headers
+     * @param int $total
      * @return JsonResponse
      */
     public function apiPaginate(
-        LengthAwarePaginator|ResourceCollection $pagination,
-        array                                            $appends = [],
-        bool                                             $reverse_data = false,
-        array                                            $headers = []
+        LengthAwarePaginator|ResourceCollection|CursorPaginator $pagination,
+        array                                                   $appends = [],
+        bool                                                    $reverse_data = false,
+        array                                                   $headers = [],
+        int                                                     $total = 0
     ): JsonResponse
     {
-        // Set pagination data
+        // Common meta
         $isFirst = $pagination->onFirstPage();
         $isLast = $pagination->onLastPage();
         $isNext = $pagination->hasMorePages();
-        $isPrevious = (($pagination->currentPage() - 1) > 0);
+        $perPage = $pagination->perPage();
+        $count = $pagination->count();
 
-        $current = $pagination->currentPage();
-        $last = $pagination->lastpage();
-        $next = ($isNext ? $current + 1 : null);
-        $previous = ($isPrevious ? $current - 1 : null);
+        // Set is cursor paginate as false
+        $isCursorPaginate = false;
+
+        // Set pagination data
+        if (
+            ($pagination instanceof ResourceCollection && $pagination->resource instanceof CursorPaginator) ||
+            $pagination instanceof CursorPaginator
+        ) {
+            // Meta
+            $isPrevious = !is_null($pagination->previousCursor());
+            $current = null;
+            $next = $pagination->nextCursor()?->encode();
+            $previous = $pagination->previousCursor()?->encode();
+            $first = null;
+            $last = null;
+            $from = null;
+            $to = null;
+            $isCursorPaginate = true;
+        } else {
+            // Meta
+            $isPrevious = (($pagination->currentPage() - 1) > 0);
+            $current = $pagination->currentPage();
+            $next = ($isNext ? $current + 1 : null);
+            $previous = ($isPrevious ? $current - 1 : null);
+            $first = 1;
+            $last = $pagination->lastpage();
+            $from = $pagination->firstItem();
+            $to = $pagination->lastItem();
+            $total = $pagination->total();
+        }
 
         $data = $pagination->items();
 
@@ -314,44 +392,63 @@ trait APIResponseTrait
             return $this->apiResponse(['type' => 'not found']);
         }
 
-        // Set extra
-        $extra = $appends + [
-                'pagination' => [
-                    'meta' => [
-                        'page' => [
-                            "current" => $current,
-                            "first" => 1,
-                            "last" => $last,
-                            "next" => $next,
-                            "previous" => $previous,
+        $pagination = collect([
+            'meta' => [
+                'page' => [
+                    'current' => $current,
+                    'first' => $first,
+                    'last' => $last,
+                    'next' => $next,
+                    'previous' => $previous,
 
-                            "per" => $pagination->perPage(),
-                            "from" => $pagination->firstItem(),
-                            "to" => $pagination->lastItem(),
+                    'per' => $perPage,
+                    'from' => $from,
+                    'to' => $to,
 
-                            "count" => $pagination->count(),
-                            "total" => $pagination->total(),
+                    'count' => $count,
+                    'total' => $total,
 
-                            "isFirst" => $isFirst,
-                            "isLast" => $isLast,
-                            "isNext" => $isNext,
-                            "isPrevious" => $isPrevious,
-                        ],
-                    ],
-                    "links" => [
-                        "path" => $pagination->path(),
-                        "first" => $pagination->url(1),
-                        "next" => ($isNext ? $pagination->url($next) : null),
-                        "previous" => ($isPrevious ? $pagination->url($previous) : null),
-                        "last" => $pagination->url($last),
-                    ],
+                    'isFirst' => $isFirst,
+                    'isLast' => $isLast,
+                    'isNext' => $isNext,
+                    'isPrevious' => $isPrevious,
+                    'isCursorPaginate' => $isCursorPaginate,
                 ],
-            ];
+            ]
+        ])
+            ->when(!config('response.hideMetaPaginationLinks', true), function (Collection $collection) use ($pagination, $isNext, $next, $isPrevious, $previous, $last) {
+                // Common urls
+                $pathUrl = $pagination->path();
 
-        // Remove pagination links
-        if (config('response.hideMetaPaginationLinks', true) && isset($extra['pagination'])) {
-            unset($extra['pagination']['links']);
-        }
+                if ($pagination instanceof ResourceCollection && $pagination->resource instanceof CursorPaginator) {
+                    // Urls
+                    $firstUrl = null;
+                    $nextUrl = $pagination->nextPageUrl();
+                    $previousUrl = $pagination->previousPageUrl();
+                    $lastPageUrl = null;
+                } else {
+                    // Urls
+                    $firstUrl = $pagination->url(1);
+                    $nextUrl = ($isNext ? $pagination->url($next) : null);
+                    $previousUrl = ($isPrevious ? $pagination->url($previous) : null);
+                    $lastPageUrl = $pagination->url($last);
+                }
+                return $collection->put('links', [
+                    'path' => $pathUrl,
+                    'first' => $firstUrl,
+                    'next' => $nextUrl,
+                    'previous' => $previousUrl,
+                    'last' => $lastPageUrl
+                ]);
+            })
+            ->toArray();
+
+        // Set extra
+        $extra = collect($appends)
+            ->merge([
+                'pagination' => $pagination,
+            ])
+            ->toArray();
 
         return $this->apiRawResponse(data: $data, extra: $extra, responseHeaders: $headers);
     }

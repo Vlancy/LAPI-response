@@ -182,6 +182,21 @@ if (!function_exists('apiOk')) {
     }
 }
 
+if (!function_exists('apiDeleted')) {
+    /**
+     * Handle a successful resource deletion API response (HTTP 204 No Content).
+     *
+     * @param mixed|null $data
+     * @param string|null $message
+     * @param array $headers
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function apiDeleted(mixed $data = null, ?string $message = null, array $headers = [])
+    {
+        return ApiResponse::apiDeleted($data, $message, $headers);
+    }
+}
+
 if (!function_exists('apiNotFound')) {
     /**
      * Handle an API not found response.

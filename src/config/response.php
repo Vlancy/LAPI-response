@@ -22,6 +22,7 @@ return [
         HttpFoundationResponse::HTTP_OK,
         HttpFoundationResponse::HTTP_CREATED,
         HttpFoundationResponse::HTTP_ACCEPTED,
+        HttpFoundationResponse::HTTP_NO_CONTENT,
     ],
 
     // Exceptions status codes.
@@ -133,6 +134,7 @@ return [
         'apiForbidden' => 'FORBIDDEN',
         'apiValidate' => 'VALIDATION_FAILED',
         'apiConflict' => 'CONFLICT_ERROR',
+        'apiDeleted' => 'RESOURCE_DELETED',
     ],
 
     /*

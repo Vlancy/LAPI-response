@@ -32,6 +32,7 @@ enum ErrorCodesEnum: int
     case RESOURCE_LOCK_ERROR = 1023;
     case VERSION_MISMATCH_ERROR = 1024;
     case QUEUE_OVERFLOW_ERROR = 1025;
+    case RESOURCE_DELETED = 1026;
 
 
     /**

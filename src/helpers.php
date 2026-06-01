@@ -182,6 +182,21 @@ if (!function_exists('apiOk')) {
     }
 }
 
+if (!function_exists('apiDeleted')) {
+    /**
+     * Handle a successful resource deletion API response (HTTP 204 No Content).
+     *
+     * @param mixed|null $data
+     * @param string|null $message
+     * @param array $headers
+     * @return \Illuminate\Http\JsonResponse
+     */
+    function apiDeleted(mixed $data = null, ?string $message = null, array $headers = [])
+    {
+        return ApiResponse::apiDeleted($data, $message, $headers);
+    }
+}
+
 if (!function_exists('apiNotFound')) {
     /**
      * Handle an API not found response.
@@ -326,11 +341,18 @@ if (!function_exists('apiPaginate')) {
      * @param array $appends
      * @param bool $reverse_data
      * @param array $headers optional headers to be implemented in response.
+     * @param int $total
      * @return \Illuminate\Http\JsonResponse
      */
-    function apiPaginate(LengthAwarePaginator|ResourceCollection|CursorPaginator $pagination, array $appends = [], bool $reverse_data = false, array $headers = [])
+    function apiPaginate(
+        LengthAwarePaginator|ResourceCollection|CursorPaginator $pagination,
+        array                                                   $appends = [],
+        bool                                                    $reverse_data = false,
+        array                                                   $headers = [],
+        int                                                     $total = 0
+    )
     {
-        return ApiResponse::apiPaginate($pagination, $appends, $reverse_data, $headers);
+        return ApiResponse::apiPaginate($pagination, $appends, $reverse_data, $headers, $total);
     }
 }
 

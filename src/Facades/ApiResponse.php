@@ -19,6 +19,9 @@ use UnitEnum;
  * @method static JsonResponse apiCreated(mixed $data = null, string|null $message = null, array $headers = [])
  *   Returns a 201 Created JSON response.
  *
+ * @method static JsonResponse apiDeleted(mixed $data = null, string|null $message = null, array $headers = [])
+ *   Returns a 204 No Content JSON response indicating a resource was successfully deleted.
+ *
  * @method static JsonResponse apiNotFound(array|string $errors = [], string|null $message = null, bool $throw_exception = true, string|int|UnitEnum|null $errorCode = null, array $headers = [])
  *   Returns a 404 Not Found JSON response, optionally throwing an HttpResponseException.
  *

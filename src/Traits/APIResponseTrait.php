@@ -52,6 +52,25 @@ trait APIResponseTrait
     }
 
     /**
+     * The deleted response (HTTP 204 No Content).
+     * Signals that a resource was successfully deleted.
+     *
+     * @param mixed|null $data
+     * @param string|null $message
+     * @param array $headers
+     * @return JsonResponse
+     */
+    public function apiDeleted(mixed $data = null, ?string $message = null, array $headers = []): JsonResponse
+    {
+        return $this->apiResponse([
+            'status_code' => Response::HTTP_NO_CONTENT,
+            'data' => $data,
+            'message' => $message,
+            'response_headers' => $headers,
+        ]);
+    }
+
+    /**
      * The not found response
      * @param array|string $errors
      * @param string|null $message
@@ -714,6 +733,7 @@ trait APIResponseTrait
             'ok',
             'created',
             'accepted',
+            'deleted',
             'notfound',
             'conflict',
             'badrequest',
@@ -747,6 +767,7 @@ trait APIResponseTrait
             $status_code = match ($type) {
                 'created' => Response::HTTP_CREATED,
                 'accepted' => Response::HTTP_ACCEPTED,
+                'deleted' => Response::HTTP_NO_CONTENT,
                 'notfound' => Response::HTTP_NOT_FOUND,
                 'conflict' => Response::HTTP_CONFLICT,
                 'badrequest' => Response::HTTP_BAD_REQUEST,

@@ -1,9 +1,9 @@
 # Laravel API Response
 
-[![Latest Version](https://img.shields.io/github/v/release/i3rror/LAPI-response)](https://github.com/i3rror/LAPI-response/releases)
-[![GitHub repo size](https://img.shields.io/github/repo-size/i3rror/LAPI-response)](https://github.com/i3rror/LAPI-response/releases)
-[![GitHub](https://img.shields.io/github/license/i3rror/LAPI-response)](https://img.shields.io/github/license/i3rror/LAPI-response)
-[![Packagist Downloads](https://img.shields.io/packagist/dt/i3rror/LAPI-response)](https://github.com/i3rror/LAPI-response/releases)
+[![Latest Version](https://img.shields.io/github/v/release/Vlancy/LAPI-response)](https://github.com/Vlancy/LAPI-response/releases)
+[![GitHub repo size](https://img.shields.io/github/repo-size/Vlancy/LAPI-response)](https://github.com/Vlancy/LAPI-response)
+[![GitHub](https://img.shields.io/github/license/Vlancy/LAPI-response)](https://github.com/Vlancy/LAPI-response/blob/main/LICENSE.md)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/vlancy/lapi-response)](https://packagist.org/packages/vlancy/lapi-response)
 
 ## Overview
 
@@ -419,7 +419,7 @@ php artisan lapi-response:publish-error-codes CustomErrorCodesEnum
 
 ## Contributors
 
-[![Contributors](https://contrib.rocks/image?repo=i3rror/LAPI-response)](https://github.com/i3rror/LAPI-response/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=Vlancy/LAPI-response)](https://github.com/Vlancy/LAPI-response/graphs/contributors)
 
 ## Testing
 

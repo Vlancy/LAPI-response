@@ -1,9 +1,9 @@
 # Laravel API Response
 
-[![Latest Version](https://img.shields.io/github/v/release/Vlancy/LAPI-response)](https://github.com/Vlancy/LAPI-response/releases)
-[![GitHub repo size](https://img.shields.io/github/repo-size/Vlancy/LAPI-response)](https://github.com/Vlancy/LAPI-response)
-[![GitHub](https://img.shields.io/github/license/Vlancy/LAPI-response)](https://github.com/Vlancy/LAPI-response/blob/main/LICENSE.md)
-[![Packagist Downloads](https://img.shields.io/packagist/dt/vlancy/lapi-response)](https://packagist.org/packages/vlancy/lapi-response)
+[![Release](https://img.shields.io/github/v/release/Vlancy/LAPI-response?label=release)](https://github.com/Vlancy/LAPI-response/releases)
+[![Repo Size](https://img.shields.io/github/repo-size/Vlancy/LAPI-response?label=repo%20size)](https://github.com/Vlancy/LAPI-response)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Vlancy/LAPI-response/blob/main/LICENSE.md)
+[![Downloads](https://img.shields.io/packagist/dt/vlancy/lapi-response?label=downloads)](https://packagist.org/packages/vlancy/lapi-response)
 
 ## Overview
 

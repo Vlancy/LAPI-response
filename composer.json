@@ -1,13 +1,15 @@
 {
-  "name": "i3rror/lapi-response",
-  "description": "API Response trait for laravel",
+  "name": "vlancy/lapi-response",
+  "description": "API Response trait for Laravel, which helps you to create consistent and standardized API responses in your Laravel applications.",
   "keywords": [
-    "response",
+    "lapi-response",
+    "lapi",
     "laravel-api-response",
     "api-response",
+    "laravel",
     "api",
-    "cms",
-    "laravel"
+    "response",
+    "vlancy"
   ],
   "authors": [
     {
@@ -16,7 +18,6 @@
     },
     {
       "name": "Ahmed Elrayes",
-      "email": "ahmedwaill63@gmail.com",
       "role": "Developer"
     }
   ],
@@ -40,7 +41,7 @@
   },
   "autoload": {
     "psr-4": {
-      "MA\\LaravelApiResponse\\": "src/"
+      "Vlancy\\LaravelApiResponse\\": "src/"
     },
     "files": [
       "src/helpers.php"
@@ -48,7 +49,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "MA\\LaravelApiResponse\\Tests\\": "tests/"
+      "Vlancy\\LaravelApiResponse\\Tests\\": "tests/"
     }
   },
   "suggest": {

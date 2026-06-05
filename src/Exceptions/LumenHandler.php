@@ -1,6 +1,6 @@
 <?php
 
-namespace MA\LaravelApiResponse\Exceptions;
+namespace Vlancy\LaravelApiResponse\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
-use MA\LaravelApiResponse\Traits\APIResponseTrait;
+use Vlancy\LaravelApiResponse\Traits\APIResponseTrait;
 use Psr\Log\LogLevel;
 use Symfony\Component\HttpFoundation\StreamedJsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;

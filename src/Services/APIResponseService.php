@@ -1,11 +1,10 @@
 <?php
 
-namespace MA\LaravelApiResponse\Services;
+namespace Vlancy\LaravelApiResponse\Services;
 
-use MA\LaravelApiResponse\Traits\APIResponseTrait;
+use Vlancy\LaravelApiResponse\Traits\APIResponseTrait;
 
 class APIResponseService
 {
     use APIResponseTrait;
-
 }

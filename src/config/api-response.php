@@ -105,7 +105,7 @@ return [
     'enableErrorCodes' => true,
 
     // Set error codes enum class
-    'errorCodes' => \MA\LaravelApiResponse\Enums\ErrorCodesEnum::class,
+    'errorCodes' => Vlancy\LaravelApiResponse\Enums\ErrorCodesEnum::class,
 
     // Set error codes output either string or integer
     'errorCodesType' => 'string',

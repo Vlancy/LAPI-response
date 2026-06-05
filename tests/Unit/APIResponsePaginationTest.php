@@ -1,11 +1,11 @@
 <?php
 
-namespace MA\LaravelApiResponse\Tests\Unit;
+namespace Vlancy\LaravelApiResponse\Tests\Unit;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
-use MA\LaravelApiResponse\Services\APIResponseService;
-use MA\LaravelApiResponse\Tests\TestCase;
+use Vlancy\LaravelApiResponse\Services\APIResponseService;
+use Vlancy\LaravelApiResponse\Tests\TestCase;
 
 class APIResponsePaginationTest extends TestCase
 {

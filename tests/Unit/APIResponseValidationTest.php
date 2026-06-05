@@ -1,12 +1,12 @@
 <?php
 
-namespace MA\LaravelApiResponse\Tests\Unit;
+namespace Vlancy\LaravelApiResponse\Tests\Unit;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use MA\LaravelApiResponse\Services\APIResponseService;
-use MA\LaravelApiResponse\Tests\TestCase;
+use Vlancy\LaravelApiResponse\Services\APIResponseService;
+use Vlancy\LaravelApiResponse\Tests\TestCase;
 
 class APIResponseValidationTest extends TestCase
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace MA\LaravelApiResponse\Tests\Unit;
+namespace Vlancy\LaravelApiResponse\Tests\Unit;
 
 use Exception;
-use MA\LaravelApiResponse\Enums\ErrorCodesEnum;
-use MA\LaravelApiResponse\Tests\TestCase;
+use Vlancy\LaravelApiResponse\Enums\ErrorCodesEnum;
+use Vlancy\LaravelApiResponse\Tests\TestCase;
 
 class ErrorCodesEnumTest extends TestCase
 {
@@ -34,7 +34,7 @@ class ErrorCodesEnumTest extends TestCase
     public function it_throws_exception_for_invalid_error_code()
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Enum 'MA\LaravelApiResponse\Enums\ErrorCodesEnum::INVALID_CODE' not found!");
+        $this->expectExceptionMessage("Enum 'Vlancy\LaravelApiResponse\Enums\ErrorCodesEnum::INVALID_CODE' not found!");
         
         ErrorCodesEnum::getProperty('INVALID_CODE');
     }

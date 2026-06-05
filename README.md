@@ -53,7 +53,7 @@ When used within a Laravel application, these optional dependencies will be avai
 ### Step 1: Install via Composer
 
 ```bash
-composer require i3rror/lapi-response
+composer require vlancy/lapi-response
 ```
 
 ### Step 2: Register Service Provider
@@ -61,7 +61,7 @@ composer require i3rror/lapi-response
 Include the service provider in your `config/app.php` or in `bootstrap/providers.php` if you're using Laravel 11:
 
 ```php
-MA\LaravelApiResponse\Providers\APIResponseProvider::class
+Vlancy\LaravelApiResponse\Providers\APIResponseProvider::class
 ```
 
 ### Step 3: Publish Configuration
@@ -69,7 +69,7 @@ MA\LaravelApiResponse\Providers\APIResponseProvider::class
 Run the following command to publish the package configuration:
 
 ```bash
-php artisan vendor:publish --provider="MA\LaravelApiResponse\Providers\APIResponseProvider" --tag="lapi-response-config"
+php artisan vendor:publish --provider="Vlancy\LaravelApiResponse\Providers\APIResponseProvider" --tag="lapi-response-config"
 ```
 
 ## Basic Implementation
@@ -77,7 +77,7 @@ php artisan vendor:publish --provider="MA\LaravelApiResponse\Providers\APIRespon
 To use this package, add the `APIResponseTrait` to your controllers:
 
 ```php
-use MA\LaravelApiResponse\Traits\APIResponseTrait;
+use Vlancy\LaravelApiResponse\Traits\APIResponseTrait;
 
 class YourController extends Controller
 {
@@ -251,7 +251,7 @@ If validation fails, it returns a standardized error response with validation er
 
 #### Also we have a trait ready to use in case you're using FormRequests.
 ```php
-use MA\LaravelApiResponse\Traits\APIRequestValidator;
+use Vlancy\LaravelApiResponse\Traits\APIRequestValidator;
 
 class UpdateAccountRequest extends FormRequest
 {
@@ -375,7 +375,7 @@ apiStreamResponse($generator, $message = null, $statusCode = 200, $headers = [])
 
 ## Configuration
 
-The package provides extensive configuration options in `config/response.php`:
+The package provides extensive configuration options in `config/api-response.php`:
 
 ### Data Handling
 
@@ -397,7 +397,7 @@ The package provides extensive configuration options in `config/response.php`:
 'enableErrorCodes' => true,
 
 // Error codes enum class
-'errorCodes' => \MA\LaravelApiResponse\Enums\ErrorCodesEnum::class,
+'errorCodes' => Vlancy\LaravelApiResponse\Enums\ErrorCodesEnum::class,
 
 // Error codes output format (string or integer)
 'errorCodesType' => 'string',

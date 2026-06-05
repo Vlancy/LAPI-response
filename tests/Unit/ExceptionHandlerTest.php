@@ -1,14 +1,14 @@
 <?php
 
-namespace MA\LaravelApiResponse\Tests\Unit;
+namespace Vlancy\LaravelApiResponse\Tests\Unit;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use MA\LaravelApiResponse\Exceptions\Handler;
-use MA\LaravelApiResponse\Tests\TestCase;
+use Vlancy\LaravelApiResponse\Exceptions\Handler;
+use Vlancy\LaravelApiResponse\Tests\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

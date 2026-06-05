@@ -1,6 +1,6 @@
 <?php
 
-namespace MA\LaravelApiResponse\Facades;
+namespace Vlancy\LaravelApiResponse\Facades;
 
 use Generator;
 use Illuminate\Contracts\Pagination\CursorPaginator;
@@ -55,7 +55,7 @@ use UnitEnum;
  * @method static JsonResponse|StreamedJsonResponse apiResponse(array|string|null $arg = null, mixed $data = null, array $guards = [])
  *   Low-level response builder; accepts a type/arg array or a type string and optional data.
  *
- * @see \MA\LaravelApiResponse\Traits\APIResponseTrait
+ * @see \Vlancy\LaravelApiResponse\Traits\APIResponseTrait
  */
 class ApiResponse extends Facade
 {

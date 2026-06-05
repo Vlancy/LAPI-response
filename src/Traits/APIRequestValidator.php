@@ -1,6 +1,6 @@
 <?php
 
-namespace MA\LaravelApiResponse\Traits;
+namespace Vlancy\LaravelApiResponse\Traits;
 
 use Illuminate\Http\Concerns\InteractsWithContentTypes;
 use Illuminate\Http\JsonResponse;
@@ -26,11 +26,11 @@ trait APIRequestValidator
         // if expects json
         if ($this->expectsJson()) {
             // Set errors
-            $errors = config('response.returnValidationErrorsKeys', true) ?
+            $errors = config('api-response.returnValidationErrorsKeys', true) ?
                 $validator->errors()->toArray() :
                 $validator->errors()->all();
-            if ((bool)config('response.returnDefaultErrorCodes', true)) {
-                $errorCode = $this->getErrorCode(config('response.errorCodesDefaults.apiValidate', 'VALIDATION_FAILED'));
+            if ((bool)config('api-response.returnDefaultErrorCodes', true)) {
+                $errorCode = $this->getErrorCode(config('api-response.errorCodesDefaults.apiValidate', 'VALIDATION_FAILED'));
             } else {
                 $errorCode = null;
             }

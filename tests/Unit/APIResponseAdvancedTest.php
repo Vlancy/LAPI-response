@@ -1,11 +1,11 @@
 <?php
 
-namespace MA\LaravelApiResponse\Tests\Unit;
+namespace Vlancy\LaravelApiResponse\Tests\Unit;
 
 use Generator;
 use Illuminate\Http\JsonResponse;
-use MA\LaravelApiResponse\Services\APIResponseService;
-use MA\LaravelApiResponse\Tests\TestCase;
+use Vlancy\LaravelApiResponse\Services\APIResponseService;
+use Vlancy\LaravelApiResponse\Tests\TestCase;
 use Symfony\Component\HttpFoundation\StreamedJsonResponse;
 
 class APIResponseAdvancedTest extends TestCase

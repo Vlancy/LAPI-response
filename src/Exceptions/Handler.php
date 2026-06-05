@@ -1,6 +1,6 @@
 <?php
 
-namespace MA\LaravelApiResponse\Exceptions;
+namespace Vlancy\LaravelApiResponse\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -12,7 +12,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
-use MA\LaravelApiResponse\Traits\APIResponseTrait;
+use Vlancy\LaravelApiResponse\Traits\APIResponseTrait;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 use Throwable;
 
@@ -31,7 +31,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if (!$e instanceof HttpResponseException) {
-            $customHandlers = collect(config('response.customErrorHandlers', []))
+            $customHandlers = collect(config('api-response.customErrorHandlers', []))
                 ->filter(fn($handler) => is_array($handler) && count($handler) > 0)
                 ->all();
 
@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
                 }
 
                 // Get error code
-                if ((bool)config('response.returnDefaultErrorCodes', true) && isset($handler['errorCode'])) {
+                if ((bool)config('api-response.returnDefaultErrorCodes', true) && isset($handler['errorCode'])) {
                     $errorCode = $this->getErrorCode($handler['errorCode']);
                 } else {
                     $errorCode = null;
@@ -96,7 +96,7 @@ class Handler extends ExceptionHandler
     protected function invalidJson($request, ValidationException $exception)
     {
         // Set errors
-        $errors = config('response.returnValidationErrorsKeys', true) ?
+        $errors = config('api-response.returnValidationErrorsKeys', true) ?
             $exception->validator->errors()->toArray() :
             $exception->validator->errors()->all();
 
@@ -114,8 +114,8 @@ class Handler extends ExceptionHandler
         }
 
         // Get error code
-        if ((bool)config('response.returnDefaultErrorCodes', true)) {
-            $errorCode = $this->getErrorCode(config('response.errorCodesDefaults.apiValidate', 'VALIDATION_FAILED'));
+        if ((bool)config('api-response.returnDefaultErrorCodes', true)) {
+            $errorCode = $this->getErrorCode(config('api-response.errorCodesDefaults.apiValidate', 'VALIDATION_FAILED'));
         } else {
             $errorCode = null;
         }
@@ -208,7 +208,7 @@ class Handler extends ExceptionHandler
 
         // Return status code if it is in the list
         if (in_array($e->getCode(), $statusCodes)) {
-            return config('response.renderClientErrorsStatusCode', false) ? $e->getCode() : HttpFoundationResponse::HTTP_BAD_REQUEST;
+            return config('api-response.renderClientErrorsStatusCode', false) ? $e->getCode() : HttpFoundationResponse::HTTP_BAD_REQUEST;
         }
 
         // Return default status code

@@ -1,6 +1,6 @@
 <?php
 
-namespace MA\LaravelApiResponse\Console;
+namespace Vlancy\LaravelApiResponse\Console;
 
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Attribute\AsCommand;

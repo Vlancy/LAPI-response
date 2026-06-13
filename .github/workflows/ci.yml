@@ -42,12 +42,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require "illuminate/config:${{ matrix.laravel }}" \
+          composer require \
+            "illuminate/config:${{ matrix.laravel }}" \
             "illuminate/contracts:${{ matrix.laravel }}" \
             "illuminate/http:${{ matrix.laravel }}" \
             "illuminate/pagination:${{ matrix.laravel }}" \
             "illuminate/support:${{ matrix.laravel }}" \
             "illuminate/validation:${{ matrix.laravel }}" \
+            --no-interaction --no-update
+          composer require --dev \
             "orchestra/testbench:${{ matrix.testbench }}" \
             --no-interaction --no-update
           composer update --prefer-dist --no-interaction --no-progress

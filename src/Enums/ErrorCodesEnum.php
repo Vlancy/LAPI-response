@@ -1,6 +1,6 @@
 <?php
 
-namespace MA\LaravelApiResponse\Enums;
+namespace Vlancy\LaravelApiResponse\Enums;
 
 use Exception;
 

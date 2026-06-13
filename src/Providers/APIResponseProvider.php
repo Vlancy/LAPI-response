@@ -1,10 +1,10 @@
 <?php
 
-namespace MA\LaravelApiResponse\Providers;
+namespace Vlancy\LaravelApiResponse\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use MA\LaravelApiResponse\Console\PublishErrorCodesEnumCommand;
-use MA\LaravelApiResponse\Services\APIResponseService;
+use Vlancy\LaravelApiResponse\Console\PublishErrorCodesEnumCommand;
+use Vlancy\LaravelApiResponse\Services\APIResponseService;
 
 class APIResponseProvider extends ServiceProvider
 {
@@ -15,7 +15,7 @@ class APIResponseProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/response.php', 'response');
+        $this->mergeConfigFrom(__DIR__ . '/../config/api-response.php', 'api-response');
 
         $this->app->bind('lapi-response', function () {
             return new APIResponseService();
@@ -31,7 +31,7 @@ class APIResponseProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/response.php' => config_path('response.php'),
+                __DIR__ . '/../config/api-response.php' => config_path('api-response.php'),
             ], 'lapi-response-config');
 
             $this->commands([
@@ -42,13 +42,13 @@ class APIResponseProvider extends ServiceProvider
         if (class_exists('\Illuminate\Foundation\Exceptions\Handler')) {
             $this->app->singleton(
                 \Illuminate\Contracts\Debug\ExceptionHandler::class,
-                \MA\LaravelApiResponse\Exceptions\Handler::class
+                \Vlancy\LaravelApiResponse\Exceptions\Handler::class
             );
         }
         if (class_exists('\Laravel\Lumen\Exceptions\Handler')) {
             $this->app->singleton(
                 \Illuminate\Contracts\Debug\ExceptionHandler::class,
-                \MA\LaravelApiResponse\Exceptions\LumenHandler::class
+                \Vlancy\LaravelApiResponse\Exceptions\LumenHandler::class
             );
         }
     }

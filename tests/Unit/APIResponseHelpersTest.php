@@ -1,11 +1,11 @@
 <?php
 
-namespace MA\LaravelApiResponse\Tests\Unit;
+namespace Vlancy\LaravelApiResponse\Tests\Unit;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use MA\LaravelApiResponse\Tests\TestCase;
+use Vlancy\LaravelApiResponse\Tests\TestCase;
 use Symfony\Component\HttpFoundation\StreamedJsonResponse;
 
 class APIResponseHelpersTest extends TestCase

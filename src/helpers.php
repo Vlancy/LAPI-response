@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Date;
-use MA\LaravelApiResponse\Facades\ApiResponse;
+use Vlancy\LaravelApiResponse\Facades\ApiResponse;
 
 if (!function_exists('now')) {
     /**

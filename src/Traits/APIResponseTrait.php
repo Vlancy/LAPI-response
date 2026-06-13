@@ -1,6 +1,6 @@
 <?php
 
-namespace MA\LaravelApiResponse\Traits;
+namespace Vlancy\LaravelApiResponse\Traits;
 
 use Generator;
 use Illuminate\Contracts\Pagination\CursorPaginator;
@@ -12,7 +12,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use MA\LaravelApiResponse\Enums\ErrorCodesEnum;
+use Vlancy\LaravelApiResponse\Enums\ErrorCodesEnum;
 use Symfony\Component\HttpFoundation\StreamedJsonResponse;
 use UnitEnum;
 
@@ -101,8 +101,8 @@ trait APIResponseTrait
         }
 
         // Set a default value if error code not sent
-        if (!$errorCode && (bool)config('response.returnDefaultErrorCodes', true)) {
-            $errorCode = $this->getErrorCode(config('response.errorCodesDefaults.apiNotFound', 'RESOURCE_NOT_FOUND'));
+        if (!$errorCode && (bool)config('api-response.returnDefaultErrorCodes', true)) {
+            $errorCode = $this->getErrorCode(config('api-response.errorCodesDefaults.apiNotFound', 'RESOURCE_NOT_FOUND'));
         }
 
         return $this->apiResponse([
@@ -149,8 +149,8 @@ trait APIResponseTrait
         }
 
         // Set a default value if error code not sent
-        if (!$errorCode && (bool)config('response.returnDefaultErrorCodes', true)) {
-            $errorCode = $this->getErrorCode(config('response.errorCodesDefaults.apiConflict', 'CONFLICT_ERROR'));
+        if (!$errorCode && (bool)config('api-response.returnDefaultErrorCodes', true)) {
+            $errorCode = $this->getErrorCode(config('api-response.errorCodesDefaults.apiConflict', 'CONFLICT_ERROR'));
         }
 
         return $this->apiResponse([
@@ -195,8 +195,8 @@ trait APIResponseTrait
         }
 
         // Set a default value if error code not sent
-        if (!$errorCode && (bool)config('response.returnDefaultErrorCodes', true)) {
-            $errorCode = $this->getErrorCode(config('response.errorCodesDefaults.apiBadRequest', 'BAD_REQUEST'));
+        if (!$errorCode && (bool)config('api-response.returnDefaultErrorCodes', true)) {
+            $errorCode = $this->getErrorCode(config('api-response.errorCodesDefaults.apiBadRequest', 'BAD_REQUEST'));
         }
 
         return $this->apiResponse([
@@ -241,8 +241,8 @@ trait APIResponseTrait
         }
 
         // Set a default value if error code not sent
-        if (!$errorCode && (bool)config('response.returnDefaultErrorCodes', true)) {
-            $errorCode = $this->getErrorCode(config('response.errorCodesDefaults.apiException', 'SERVER_ERROR'));
+        if (!$errorCode && (bool)config('api-response.returnDefaultErrorCodes', true)) {
+            $errorCode = $this->getErrorCode(config('api-response.errorCodesDefaults.apiException', 'SERVER_ERROR'));
         }
 
         return $this->apiResponse([
@@ -285,8 +285,8 @@ trait APIResponseTrait
         }
 
         // Set a default value if error code not sent
-        if (!$errorCode && (bool)config('response.returnDefaultErrorCodes', true)) {
-            $errorCode = $this->getErrorCode(config('response.errorCodesDefaults.apiUnauthenticated', 'UNAUTHORIZED_ACCESS'));
+        if (!$errorCode && (bool)config('api-response.returnDefaultErrorCodes', true)) {
+            $errorCode = $this->getErrorCode(config('api-response.errorCodesDefaults.apiUnauthenticated', 'UNAUTHORIZED_ACCESS'));
         }
 
         return $this->apiResponse([
@@ -329,8 +329,8 @@ trait APIResponseTrait
         }
 
         // Set a default value if error code not sent
-        if (!$errorCode && (bool)config('response.returnDefaultErrorCodes', true)) {
-            $errorCode = $this->getErrorCode(config('response.errorCodesDefaults.apiForbidden', 'FORBIDDEN'));
+        if (!$errorCode && (bool)config('api-response.returnDefaultErrorCodes', true)) {
+            $errorCode = $this->getErrorCode(config('api-response.errorCodesDefaults.apiForbidden', 'FORBIDDEN'));
         }
 
         return $this->apiResponse([
@@ -407,7 +407,7 @@ trait APIResponseTrait
         }
 
         // If no page found
-        if ($current > $last && config('response.returnNotFoundOnEmptyPagination', true)) {
+        if ($current > $last && config('api-response.returnNotFoundOnEmptyPagination', true)) {
             return $this->apiResponse(['type' => 'not found']);
         }
 
@@ -435,7 +435,7 @@ trait APIResponseTrait
                 ],
             ]
         ])
-            ->when(!config('response.hideMetaPaginationLinks', true), function (Collection $collection) use ($pagination, $isNext, $next, $isPrevious, $previous, $last) {
+            ->when(!config('api-response.hideMetaPaginationLinks', true), function (Collection $collection) use ($pagination, $isNext, $next, $isPrevious, $previous, $last) {
                 // Common urls
                 $pathUrl = $pagination->path();
 
@@ -500,11 +500,11 @@ trait APIResponseTrait
         if ($validator->fails()) {
 
             // Set errors
-            $errors = config('response.returnValidationErrorsKeys', true) ?
+            $errors = config('api-response.returnValidationErrorsKeys', true) ?
                 $validator->errors()->toArray() :
                 $validator->errors()->all();
-            if ((bool)config('response.returnDefaultErrorCodes', true)) {
-                $errorCode = $this->getErrorCode(config('response.errorCodesDefaults.apiValidate', 'VALIDATION_FAILED'));
+            if ((bool)config('api-response.returnDefaultErrorCodes', true)) {
+                $errorCode = $this->getErrorCode(config('api-response.errorCodesDefaults.apiValidate', 'VALIDATION_FAILED'));
             } else {
                 $errorCode = null;
             }
@@ -630,7 +630,7 @@ trait APIResponseTrait
         }
 
         // Throw exceptions
-        if (in_array($status_code, config('response.apiExceptionCodes', [])) && $throw_exception) {
+        if (in_array($status_code, config('api-response.apiExceptionCodes', [])) && $throw_exception) {
             throw new HttpResponseException($response);
         }
 
@@ -659,10 +659,10 @@ trait APIResponseTrait
     )
     {
         // Filter data[]
-        $data = (is_array($data) && config('response.removeNullDataValues', false) ? $this->removeNullArrayValues($data) : $data);
+        $data = (is_array($data) && config('api-response.removeNullDataValues', false) ? $this->removeNullArrayValues($data) : $data);
 
         // Check if data is an empty array
-        if (config('response.setNullEmptyData', false)) {
+        if (config('api-response.setNullEmptyData', false)) {
             if (
                 (is_string($data) && !strlen($data)) ||
                 (is_array($data) && !sizeof($data))
@@ -681,9 +681,9 @@ trait APIResponseTrait
         ]);
 
         // Check if error codes enabled
-        if (config('response.enableErrorCodes', true) && $errorCode) {
+        if (config('api-response.enableErrorCodes', true) && $errorCode) {
             // Get error codes type
-            $errorCodesType = config('response.errorCodesType', 'string');
+            $errorCodesType = config('api-response.errorCodesType', 'string');
             if (!in_array($errorCodesType, ['string', 'integer'])) {
                 $errorCodesType = 'string';
             }
@@ -745,7 +745,7 @@ trait APIResponseTrait
             'error',
         ];
 
-        if (in_array($type, $types) || in_array($type, config('response.statusCodes', []))) {
+        if (in_array($type, $types) || in_array($type, config('api-response.statusCodes', []))) {
             return $type;
         } else {
             return 'ok';
@@ -788,7 +788,7 @@ trait APIResponseTrait
      */
     private function setStatus(int $status_code = Response::HTTP_OK): bool
     {
-        return in_array($status_code, config('response.apiSuccessCodes', []));
+        return in_array($status_code, config('api-response.apiSuccessCodes', []));
     }
 
     /**
@@ -870,7 +870,7 @@ trait APIResponseTrait
     private function getErrorCode(string|int $errorCode): UnitEnum
     {
         // Set a default value if error code not sent
-        $errorCodesEnum = config('response.errorCodes', ErrorCodesEnum::class);
+        $errorCodesEnum = config('api-response.errorCodes', ErrorCodesEnum::class);
 
         // Set error code enum
         if (!$errorCodesEnum instanceof UnitEnum) {

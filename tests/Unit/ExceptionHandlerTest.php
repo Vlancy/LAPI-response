@@ -51,11 +51,11 @@ class ExceptionHandlerTest extends TestCase
         $response = $this->handler->render($this->request, $exception);
 
         $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertEquals(405, $response->getStatusCode());
 
         $responseData = json_decode($response->getContent(), true);
         $this->assertFalse($responseData['status']);
-        $this->assertEquals(404, $responseData['statusCode']);
+        $this->assertEquals(405, $responseData['statusCode']);
     }
 
     /** @test */

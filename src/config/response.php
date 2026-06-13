@@ -230,5 +230,10 @@ return [
             'errorCode' => 'RESOURCE_NOT_FOUND',
             'statusCode' => HttpFoundationResponse::HTTP_NOT_FOUND,
         ],
+        Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class => [
+            'message' => 'Resource not found!',
+            'errorCode' => 'RESOURCE_NOT_FOUND',
+            'statusCode' => HttpFoundationResponse::HTTP_NOT_FOUND,
+        ],
     ]
 ];
